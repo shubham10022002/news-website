@@ -1,0 +1,42 @@
+h1
+{
+    border: 2px solid gray;
+    border-radius: 20px ;
+    height: 200px;
+    position: fixed;
+    z-index: -1;
+    background-color: aquamarine;
+    margin: 500px 300px;
+
+}
+h2
+{
+    border: 2px solid gray;
+    border-radius: 20px ;
+    height: 200px;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(127, 255, 212, 0.499);
+    margin-top: 500px;
+
+}
+
+h3
+{
+    border: 2px solid gray;
+    border-radius: 20px ;
+    height: 200px;
+    position: sticky;
+    z-index: 3;
+    background-color: aquamarine;
+}
+h4
+{
+    border: 2px solid gray;
+    border-radius: 20px ;
+    height: 200px;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(127, 255, 212, 0.499);
+
+}

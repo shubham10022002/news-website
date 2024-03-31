@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INVEST INSIDE</title>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="border">
+
+        <a href="#"><i class="fa-solid fa-bars"></i></span></a>
+
+        <span class="icon">II</span>
+
+        <span class="Hindutan">INVEST INSIDE</span>
+
+        <a href=""><i class="fa-solid fa-user"></i></a>
+
+        <a href="#" class="sign-in">sign in </a>
+
+        <input type="search" name="search" class="search" placeholder="search...">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+
+
+    </div>
+    <div class="border-2">
+        <ul>
+            <a href="">
+                <li class="left">Home</li>
+            </a>
+            <a href="Trading.html">
+                <li>Trading</li>
+            </a>
+
+
+            <a href="politics.html">
+                <li>politics</li>
+            </a>
+
+
+            <a href="Market.html">
+                <li>Market</li>
+            </a>
+
+            <a href="Companies.html">
+                <li>Companies</li>
+            </a>
+
+
+            <a href="Money.html">
+                <li>Money</li>
+            </a>
+            <a href="Forex.html">
+                <li>Forex</li>
+            </a>
+            <a href="industry.html">
+                <li>Industry</li>
+            </a>
+            <a href="technology.html">
+                <li>Techonology</li>
+            </a>
+            <a href="tradinggraph.html">
+                <li>trading graph</li>
+            </a>
+          
+
+        </ul>
+
+
+
+        <br><br>
+
+
+
+    </div>
+
+    <div class="container" id="news-container">
+        <!-- News articles will be displayed here -->
+    </div>
+
+</body>
+
+    <script>
+        const apiKey = '7442de9a5d824825a5fcccc1f890da6f';
+const apiUrl = `https://newsapi.org/v2/everything?q=trading=from=2024-03-21&sortBy=popularity&apiKey=${apiKey}`;
+
+fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        const articles = data.articles;
+        const newsContainer = document.getElementById('news-container');
+
+        articles.forEach(article => {
+            const articleDiv = document.createElement('div');
+            articleDiv.classList.add('article');
+
+            const title = document.createElement('h2');
+            title.textContent = article.title;
+
+            const description = document.createElement('p');
+            description.textContent = article.description;
+
+            const image = document.createElement('img');
+            image.src = article.urlToImage;
+            image.alt = article.title;
+
+            articleDiv.appendChild(title);
+            articleDiv.appendChild(description);
+            articleDiv.appendChild(image);
+
+            newsContainer.appendChild(articleDiv);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+    </script>
+
+<!-- <script src="script.js"></script> -->
+
+
+
+
+</html>

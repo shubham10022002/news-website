@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Chart</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .form {
+            margin-bottom: 20px;
+        }
+
+        .form label {
+            font-weight: bold;
+        }
+
+        .form input[type="text"] {
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .form button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        canvas {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trading Chart</h1>
+        <div class="form">
+            <label for="symbol">Stock Symbol:</label>
+            <input type="text" id="symbol" placeholder="Enter stock symbol">
+            <button id="fetchChartBtn">Fetch Chart</button>
+        </div>
+        <canvas id="chart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fetchChartBtn = document.getElementById("fetchChartBtn");
+            const symbolInput = document.getElementById("symbol");
+
+            fetchChartBtn.addEventListener("click", function() {
+                const symbol = symbolInput.value.trim().toUpperCase();
+                if (symbol !== "") {
+                    fetchChartData(symbol);
+                } else {
+                    alert("Please enter a stock symbol.");
+                }
+            });
+
+            function fetchChartData(symbol) {
+                const apiKey = 'PLplblYpajm9xCMdX7_3FYtTppARS0pD'; // Replace 'YOUR_API_KEY' with your actual API key from Polygon.io
+                const apiUrl = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/day/2022-01-01/2022-03-31?apiKey=${apiKey}`;
+
+                fetch(apiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        displayChart(data, symbol);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            }
+
+            function displayChart(data, symbol) {
+                const dates = data.results.map(result => new Date(result.t));
+                const prices = data.results.map(result => result.c);
+
+                const ctx = document.getElementById('chart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: `${symbol} Closing Prices`,
+                            data: prices,
+                            borderColor: 'blue',
+                            borderWidth: 1,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: 'day'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Closing Price'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
